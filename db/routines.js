@@ -1,24 +1,47 @@
 const client = require("./client");
 
-async function createRoutine({ creatorId, isPublic, name, goal }) {}
+async function createRoutine({ creatorId, isPublic, name, goal }) {
+  try {
+    const { rows: [routine] } = await client.query(`
+    INSERT INTO routines("creatorId", "isPublic", name, goal)
+    VALUES ($1, $2, $3, $4)
+    RETURNING *;
+    `, [creatorId, isPublic, name, goal])
 
-async function getRoutineById(id) {}
+    return routine;
+  } catch (error) {
+    console.error(error)
+  }
+}
 
-async function getRoutinesWithoutActivities() {}
+async function getRoutineById(id) { }
 
-async function getAllRoutines() {}
+async function getRoutinesWithoutActivities() {
+  try {
+    const { rows } = await client.query(`
+    SELECT * 
+    FROM routines;
+    `);
 
-async function getAllPublicRoutines() {}
+    return rows;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
-async function getAllRoutinesByUser({ username }) {}
+async function getAllRoutines() { }
 
-async function getPublicRoutinesByUser({ username }) {}
+async function getAllPublicRoutines() { }
 
-async function getPublicRoutinesByActivity({ id }) {}
+async function getAllRoutinesByUser({ username }) { }
 
-async function updateRoutine({ id, ...fields }) {}
+async function getPublicRoutinesByUser({ username }) { }
 
-async function destroyRoutine(id) {}
+async function getPublicRoutinesByActivity({ id }) { }
+
+async function updateRoutine({ id, ...fields }) { }
+
+async function destroyRoutine(id) { }
 
 module.exports = {
   getRoutineById,
