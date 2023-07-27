@@ -89,7 +89,7 @@ router.get('/users/me', async (req, res, next) => {
   // }
 
   try {
-    const user = await getUserByUsername(req.body.username);
+    const user = await getUserByUsername(username);
 
     if (user) {
       res.send({
