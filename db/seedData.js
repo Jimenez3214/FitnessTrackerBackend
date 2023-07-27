@@ -53,11 +53,14 @@ async function createTables() {
     );
     CREATE TABLE routine_activities (
       id SERIAL PRIMARY KEY,
-      "routineId" INTEGER UNIQUE REFERENCES routines(id),
-      "activityId" INTEGER UNIQUE REFERENCES activities(id),
+      "routineId" INTEGER REFERENCES routines(id),
+      "activityId" INTEGER REFERENCES activities(id),
       duration INTEGER,
       count INTEGER
     );
+    ALTER TABLE routine_activities
+    ADD CONSTRAINT routine_activities_unique_constraint
+    UNIQUE ("routineId", "activityId");
   `)
     console.log("Finished creating tables!");
   } catch (error) {

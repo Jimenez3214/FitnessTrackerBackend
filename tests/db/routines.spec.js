@@ -193,12 +193,12 @@ describe("DB Routines", () => {
       expectRoutinesToContainRoutine(routines, fakeRoutine);
     });
 
-  xit("should not contain the private routine", async () => {
+    xit("should not contain the private routine", async () => {
       const routines = await getAllPublicRoutines();
       expectRoutinesNotToContainRoutine(routines, fakePrivateRoutine);
     });
 
-  xit("includes their activities", async () => {
+    xit("includes their activities", async () => {
       const routines = await getAllPublicRoutines();
       const routine = routines.find((routine) => routine.id === fakeRoutine.id);
       expectRoutineToContainActivity(routine, fakeActivity);
