@@ -1,9 +1,10 @@
 /* eslint-disable no-useless-catch */
 // require('dotenv').config();
 const express = require("express");
-const { getUserByUsername, createUser, getUser } = require("../db");
+const { getUserByUsername, createUser, getUser, getUserById } = require("../db");
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const { checkForToken } = require("./utils");
 
 // POST /api/users/register
 
@@ -84,30 +85,7 @@ router.post('/login', async (req, res, next) => {
 // GET /api/users/me
 
 router.get('/users/me', async (req, res, next) => {
-  // if (req.headers.authorization) {
-  //   return res.json({ error: 'No credentials sent!' });
-  // }
-
-  try {
-    const user = await getUserByUsername(username);
-
-    if (user) {
-      res.send({
-        "id": user.id,
-        "username": user.username
-      })
-    }
-
-    else {
-      next({
-        name: "Unauthorized",
-        message: "UNAUTHORIZED ERROR"
-      })
-    }
-  } catch ({ name, message }) {
-    next({ name, message });
-  }
-
+  
 })
 
 // GET /api/users/:username/routines
