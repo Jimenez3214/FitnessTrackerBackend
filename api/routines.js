@@ -1,20 +1,24 @@
 const express = require('express');
 const router = express.Router();
-const {getAllPublicRoutines, createRoutine} = require('../db')
+const { getAllPublicRoutines, createRoutine } = require('../db')
+
 // GET /api/routines
-router.get('/routines', async (req, res, next)=>{
-    try{
+
+router.get('/', async (req, res, next) => {
+
+    try {
         const routines = await getAllPublicRoutines();
-        res.send({
-            routines,
-        });
-    }catch(error){
+        res.send(
+            routines
+        )
+    } catch (error) {
         next(error)
     }
+
 })
 // POST /api/routines
-router.post('/routines', async (req, res, next )=>{
-    
+router.post('/routines', async (req, res, next) => {
+
 })
 // PATCH /api/routines/:routineId
 

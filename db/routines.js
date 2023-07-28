@@ -87,6 +87,7 @@ async function getAllPublicRoutines() {
       routine.activities = attachActivitiesToRoutines(routine)
     ));
 
+
     return routines;
   } catch (error) {
     console.error(error);

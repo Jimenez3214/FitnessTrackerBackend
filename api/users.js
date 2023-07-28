@@ -31,7 +31,7 @@ router.post('/register', async (req, res, next) => {
     }
     else {
       const user = await createUser({ username, password });
-
+      console.log(user)
       const token = jwt.sign({
         id: user.id,
         username
@@ -61,7 +61,7 @@ router.post('/login', async (req, res, next) => {
 
   try {
     const user = await getUser({ username, password });
-
+    console.log(user)
     if (user) {
       const token = jwt.sign({
         id: user.id, username: user.username
@@ -84,8 +84,10 @@ router.post('/login', async (req, res, next) => {
 
 // GET /api/users/me
 
-router.get('/users/me', async (req, res, next) => {
-  
+router.get('/me', checkForToken, async (req, res, next) => {
+
+  console.log(req.user)
+
 })
 
 // GET /api/users/:username/routines
