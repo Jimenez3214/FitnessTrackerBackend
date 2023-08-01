@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:kizpc@localhost:5432/fitness';
+const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:messi3214@127.0.0.1:5432/fitness';
 
 const client = new Pool({
   connectionString,

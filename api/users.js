@@ -4,7 +4,7 @@ const express = require("express");
 const { getUserByUsername, createUser, getUser, getUserById } = require("../db");
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const { checkForToken } = require("./utils");
+
 
 // POST /api/users/register
 
@@ -84,9 +84,7 @@ router.post('/login', async (req, res, next) => {
 
 // GET /api/users/me
 
-router.get('/me', checkForToken, async (req, res, next) => {
-
-  console.log(req.user)
+router.get('/me', async (req, res, next) => {
 
 })
 
