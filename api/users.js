@@ -1,9 +1,10 @@
 /* eslint-disable no-useless-catch */
 // require('dotenv').config();
 const express = require("express");
-const { getUserByUsername, createUser, getUser, getUserById } = require("../db");
+const { getUserByUsername, createUser, getUser, getAllRoutinesByUser, getPublicRoutinesByUser } = require("../db");
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const { requireAuthentication } = require('./utils.js')
 
 
 // POST /api/users/register
@@ -84,10 +85,42 @@ router.post('/login', async (req, res, next) => {
 
 // GET /api/users/me
 
-router.get('/me', async (req, res, next) => {
+router.get('/me', requireAuthentication, async (req, res, next) => {
 
+  try {
+    const bearerHeader = req.headers.authorization.split(' ')[1]
+    const decoded = jwt.verify(bearerHeader, process.env.JWT_SECRET)
+
+    res.send({
+      id: decoded.id,
+      username: decoded.username
+    })
+  } catch (error) {
+    next()
+  }
 })
 
 // GET /api/users/:username/routines
+
+router.get('/:username/routines', async (req, res, next) => {
+  const { username } = req.params
+
+  try {
+    const bearerHeader = req.headers.authorization.split(' ')[1]
+    const decoded = jwt.verify(bearerHeader, process.env.JWT_SECRET)
+
+    if (decoded.username === username) {
+      const routines = await getAllRoutinesByUser({ username })
+
+      res.send(routines)
+    } else {
+      const routines = await getPublicRoutinesByUser({ username })
+
+      res.send(routines)
+    }
+  } catch (error) {
+    next(error)
+  }
+})
 
 module.exports = router;

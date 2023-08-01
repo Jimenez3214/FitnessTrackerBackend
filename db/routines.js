@@ -31,6 +31,7 @@ async function getRoutineById(id) {
     `);
 
     routine.creatorName = username.username;
+    console.log(routine)
     return routine;
   } catch (error) {
     console.error(error);

@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { getAllPublicRoutines, createRoutine, updateRoutine, getRoutineById, destroyRoutine } = require('../db')
+const { getAllPublicRoutines, createRoutine, updateRoutine, getRoutineById, destroyRoutine, getRoutineActivitiesByRoutine, addActivityToRoutine } = require('../db')
 const jwt = require('jsonwebtoken')
+const { requireAuthentication } = require('./utils')
 
 // GET /api/routines
 
@@ -19,7 +20,7 @@ router.get('/', async (req, res, next) => {
 })
 // POST /api/routines
 
-router.post('/', async (req, res, next) => {
+router.post('/', requireAuthentication, async (req, res, next) => {
     const { isPublic, name, goal } = req.body
 
     try {
@@ -40,10 +41,8 @@ router.post('/', async (req, res, next) => {
 
 // PATCH /api/routines/:routineId
 
-router.patch('/:routineId', async (req, res, next) => {
-    if (!req.headers.authorization) {
-        next()
-    }
+router.patch('/:routineId', requireAuthentication, async (req, res, next) => {
+
 
     const { routineId } = req.params
     const { isPublic, name, goal } = req.body
@@ -80,10 +79,6 @@ router.patch('/:routineId', async (req, res, next) => {
 // DELETE /api/routines/:routineId
 
 router.delete('/:routineId', async (req, res, next) => {
-    if (!req.headers.authorization) {
-        next()
-    }
-
     const { routineId } = req.params
 
     try {
@@ -91,7 +86,7 @@ router.delete('/:routineId', async (req, res, next) => {
         const decoded = jwt.verify(bearerHeader, process.env.JWT_SECRET)
 
         const routine = await getRoutineById(routineId)
-        console.log(routine)
+        // console.log(routine)
 
         if (routine.creatorId === decoded.id) {
             await destroyRoutine(routineId)
@@ -110,5 +105,32 @@ router.delete('/:routineId', async (req, res, next) => {
 })
 
 // POST /api/routines/:routineId/activities
+
+router.post('/:routineId/activities', async (req, res, next) => {
+    const { routineId, activityId, count, duration } = req.body
+
+    try {
+        const routine_activities = await getRoutineActivitiesByRoutine({ id: routineId })
+        const checkForExistingRoutineActivity = routine_activities.filter(routine_activity => {
+            return (routine_activity.routineId === routineId && routine_activity.activityId === activityId)
+        })
+
+        console.log(checkForExistingRoutineActivity)
+
+        if (checkForExistingRoutineActivity.length === 0) {
+            const addRoutineActivity = await addActivityToRoutine({ routineId, activityId, count, duration })
+
+            res.send(addRoutineActivity)
+        } else {
+            res.send({
+                error: 'ERROR',
+                message: `Activity ID ${activityId} already exists in Routine ID ${routineId}`,
+                name: 'RoutineActivityAlreadyExists'
+            })
+        }
+    } catch (error) {
+        next(error)
+    }
+})
 
 module.exports = router;
