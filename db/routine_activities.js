@@ -57,6 +57,7 @@ async function getRoutineActivitiesByRoutine({ id }) {
 }
 
 async function updateRoutineActivity({ id, ...fields }) {
+  console.log(fields)
   const setString = Object.keys(fields).map(
     (key, index) => `"${key}"=$${index + 1}`
   ).join(', ');
@@ -102,7 +103,7 @@ async function canEditRoutineActivity(routineActivityId, userId) {
       WHERE routines."creatorId"=$1;
       `, [userId]);
 
-    console.log('TEST1123', routine_activity)
+
     if (routine_activity.id === routineActivityId) {
       return true
     } else {

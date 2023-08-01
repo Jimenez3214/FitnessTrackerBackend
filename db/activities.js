@@ -113,7 +113,7 @@ async function updateActivity({ id, ...fields }) {
 
     return updatedActivity;
   } catch (error) {
-    console.error(error);
+    throw new Error('ERROR');
   }
 }
 
