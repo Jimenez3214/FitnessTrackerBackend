@@ -36,7 +36,7 @@ async function createTables() {
     await client.query(`
     CREATE TABLE users (
       id SERIAL PRIMARY KEY,
-      username VARCHAR(255) UNIQUE NOT NULL,
+      username VARCHAR(255) NOT NULL,
       password VARCHAR(255) NOT NULL
     );
     CREATE TABLE activities (
@@ -61,6 +61,10 @@ async function createTables() {
     ALTER TABLE routine_activities
     ADD CONSTRAINT routine_activities_unique_constraint
     UNIQUE ("routineId", "activityId");
+
+    AlTER TABLE users
+    ADD CONSTRAINT users_unique_constraint
+    UNIQUE username;
   `)
     console.log("Finished creating tables!");
   } catch (error) {
