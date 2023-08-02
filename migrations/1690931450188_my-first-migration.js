@@ -36,8 +36,8 @@ exports.up = pgm => {
 };
 
 exports.down = pgm => {
-  pgm.dropTable('routine_activities')
-  pgm.dropTable('routines')
-  pgm.dropTable('activities')
-  pgm.dropTable('users')
+  pgm.dropTable('routine_activities'),
+    pgm.dropTable('routines'),
+    pgm.dropTable('activities'),
+    pgm.dropTable('users')
 };
