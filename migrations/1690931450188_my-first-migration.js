@@ -32,7 +32,7 @@ exports.up = pgm => {
     'UNIQUE ("routineId", "activityId")');
   pgm.addConstraint('users',
     "users_unique_constraint",
-    'UNIQUE (username)');
+    'UNIQUE username');
 };
 
 exports.down = pgm => {
