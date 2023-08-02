@@ -30,6 +30,9 @@ exports.up = pgm => {
   pgm.addConstraint('routine_activities',
     "routine_activities_unique_constraint",
     'UNIQUE ("routineId", "activityId")');
+  pgm.addConstraint('users',
+    "users_unique_constraint",
+    'UNIQUE (username)');
 };
 
 exports.down = pgm => {
