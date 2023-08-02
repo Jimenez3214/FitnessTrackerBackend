@@ -58,10 +58,10 @@ async function createTables() {
       duration INTEGER,
       count INTEGER
     );
-    
+
     AlTER TABLE users
     ADD CONSTRAINT users_unique_constraint
-    UNIQUE username;
+    UNIQUE (username);
 
     ALTER TABLE routine_activities
     ADD CONSTRAINT routine_activities_unique_constraint
