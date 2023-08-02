@@ -15,20 +15,20 @@ exports.up = pgm => {
   })
   pgm.createTable('routines', {
     id: { type: 'serial', primaryKey: true },
-    creatorId: { type: 'integer', references: '"users(id)"' },
+    creatorId: { type: 'integer', references: "users(id)" },
     isPublic: { type: 'boolean', default: false },
     name: { type: 'varchar(255)', notNull: true },
     goal: { type: 'text', notNull: true }
   })
   pgm.createTable('routine_activities', {
     id: { type: 'serial', primaryKey: true },
-    routineId: { type: 'integer', references: '"routines(id)"' },
-    activityId: { type: 'integer', references: '"activities(id)"' },
+    routineId: { type: 'integer', references: "routines(id)" },
+    activityId: { type: 'integer', references: "activities(id)" },
     duration: { type: 'integer' },
     count: { type: 'integer' }
   })
   pgm.addConstraint('routine_activities',
-    '"routine_activities_unique_constraint"',
+    "routine_activities_unique_constraint",
     'UNIQUE ("routineId", "activityId")');
 };
 
