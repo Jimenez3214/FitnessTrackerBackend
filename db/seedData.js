@@ -58,13 +58,14 @@ async function createTables() {
       duration INTEGER,
       count INTEGER
     );
-    ALTER TABLE routine_activities
-    ADD CONSTRAINT routine_activities_unique_constraint
-    UNIQUE ("routineId", "activityId");
-
+    
     AlTER TABLE users
     ADD CONSTRAINT users_unique_constraint
     UNIQUE username;
+
+    ALTER TABLE routine_activities
+    ADD CONSTRAINT routine_activities_unique_constraint
+    UNIQUE ("routineId", "activityId");
   `)
     console.log("Finished creating tables!");
   } catch (error) {

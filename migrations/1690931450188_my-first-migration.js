@@ -27,12 +27,12 @@ exports.up = pgm => {
     duration: { type: 'integer' },
     count: { type: 'integer' }
   })
-  pgm.addConstraint('routine_activities',
-    "routine_activities_unique_constraint",
-    'UNIQUE ("routineId", "activityId")');
   pgm.addConstraint('users',
     "users_unique_constraint",
     'UNIQUE username');
+  pgm.addConstraint('routine_activities',
+    "routine_activities_unique_constraint",
+    'UNIQUE ("routineId", "activityId")');
 };
 
 exports.down = pgm => {
